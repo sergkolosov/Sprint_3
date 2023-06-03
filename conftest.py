@@ -26,21 +26,3 @@ def login(driver):
     driver.find_element(*Locators.EMAIL_FIELD).send_keys(*Creds.USER_EMAIL)
     driver.find_element(*Locators.PASSWORD_FIELD).send_keys(*Creds.USER_PASSWORD)
     driver.find_element(*Locators.LOGIN_BUTTON).click()
-
-
-@pytest.fixture
-def random_email():
-    """генератор email"""
-    length_email = 6
-    return f"{secrets.token_hex(length_email)}@yandex.ru"
-
-
-@pytest.fixture
-def random_password():
-    """генератор password"""
-    chars = '+-/*!&$#?=@<>abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    length_password = 6
-    password = ''
-    for i in range(length_password):
-        password += random.choice(chars)
-    return password
