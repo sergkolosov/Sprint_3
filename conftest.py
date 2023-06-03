@@ -9,20 +9,6 @@ from selenium.webdriver.common.by import By
 
 
 @pytest.fixture
-def creds():
-    """URL используемых страниц и креды к тестам авторизации"""
-    creds = {
-        'project_stand_main': 'https://stellarburgers.nomoreparties.site/',  # Главная страница стенда
-        'project_stand_register': 'https://stellarburgers.nomoreparties.site/register',  # Страница регистрации стенда
-        'project_stand_forgot_password': 'https://stellarburgers.nomoreparties.site/forgot-password',  # Страница регистрации стенда
-        'user_name': 'Serg',
-        'user_login': 'sergkolosov1071@yandex.ru',
-        'user_password': 'mypassword1071'
-    }
-    return creds
-
-
-@pytest.fixture
 def locators():
     """Библиотека локаторов"""
     locators = {
