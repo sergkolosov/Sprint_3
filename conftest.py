@@ -9,35 +9,6 @@ from selenium.webdriver.common.by import By
 
 
 @pytest.fixture
-def locators():
-    """Библиотека локаторов"""
-    locators = {
-        "registration_name": "//fieldset[1]/div/div/input",   # поле "Имя" на странице регистрации
-        "registration_email": "//fieldset[2]/div/div/input",   # поле "Email" на странице регистрации
-        "registration_password": "//fieldset[3]/div/div/input",   # поле "пароль" на странице регистрации
-        "email_field": "//input[@name='name']",   # поле "Email" на странице авторизации
-        "password_field": "//input[@name='Пароль']",  # поле "пароль" на странице авторизации
-        "password_error": "//p[@class='input__error text_type_main-default']",  # сообщение об ошибке
-        "registration_button": "//button[contains(text(),'Зарегистрироваться')]",  # кнопка "Зарегистрироваться"
-        "login_account_button": "//button[contains(text(),'Войти в аккаунт')]",  # кнопка "Войти в аккаунт"
-        "login_button": "//button[contains(text(),'Войти')]",  # кнопка "Войти" на странице регистрации
-        "personal_cabinet": "//p[contains(text(),'Личный Кабинет')]",  # кнопка "Личный кабинет"
-        "authorization_form": "//form",  # форма авторизации / регистрации
-        "authorization_link": "//a[contains(text(),'Войти')]",  # ссылка для авторизации
-        "registration_link": "//a[contains(text(),'Зарегистрироваться')]",  # ссылка для регистрации
-        "title_input": "//h2[contains(text(),'Вход')]",  # заголовок Вход в Личном кабинете
-        "logout_button": "//button[contains(text(),'Выход')]",  # кнопка Выход в Личном кабинете
-        "constructor_button": "//p[contains(text(),'Конструктор')]",  # кнопка Конструктор
-        "logo_button": "//header/nav/div/a",  # лого
-        "buns_button": "//span[contains(text(),'Булки')]",  # кнопка Булки
-        "sauces_button": "//span[contains(text(),'Соусы')]",  # кнопка Соусы
-        "fillings_button": "//span[contains(text(),'Начинки')]"  # кнопка Начинки
-    }
-
-    return locators
-
-
-@pytest.fixture
 def driver(creds):
     """фикстура запуска браузера"""
     driver = webdriver.Chrome()
