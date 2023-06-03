@@ -2,9 +2,9 @@ from selenium.webdriver.common.by import By
 
 
 class Locators:
-    REGISTRATION_NAME = (By.XPATH, "//fieldset[1]/div/div/input")
-    REGISTRATION_EMAIL = (By.XPATH, "//fieldset[2]/div/div/input")
-    REGISTRATION_PASSWORD = (By.XPATH, "//fieldset[3]/div/div/input")
+    REGISTRATION_NAME = (By.XPATH, "//label[text() = 'Имя']/parent::div/input")
+    REGISTRATION_EMAIL = (By.XPATH, "//label[text() = 'Email']/parent::div/input")
+    REGISTRATION_PASSWORD = (By.XPATH, "//label[text() = 'Пароль']/parent::div/input")
     EMAIL_FIELD = (By.XPATH, "//input[@name='name'")
     PASSWORD_FIELD = (By.XPATH, "//input[@name='Пароль'")
     PASSWORD_ERROR = (By.XPATH, "//p[@class='input__error text_type_main-default']")
