@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 
 
 @pytest.fixture
-def driver(creds):
+def driver():
     """фикстура запуска браузера"""
     driver = webdriver.Chrome()
     driver.maximize_window()  # полноэкранный режим
