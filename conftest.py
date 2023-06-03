@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from data import Urls
 from data import Creds
+from locator import Locators
 
 
 @pytest.fixture
@@ -20,13 +21,11 @@ def driver():
 
 
 @pytest.fixture
-def authorization(driver, locators, creds):
-    """фикстура авторизации"""
-    driver.find_element(By.XPATH, locators.get("email_field")).send_keys(creds.get("user_login"))  # Найди поле "Email" и заполни его
-    time.sleep(2)
-    driver.find_element(By.XPATH, locators.get("password_field")).send_keys(creds.get("user_password"))  # Найди поле "Пароль" и заполни его
-    time.sleep(2)
-    driver.find_element(By.XPATH, locators.get("login_button")).click()  # Найди кнопку "Войти" и кликни по ней
+def login(driver):
+    """Авторизация"""
+    driver.find_element(*Locators.EMAIL_FIELD).send_keys(*Creds.USER_EMAIL)
+    driver.find_element(*Locators.PASSWORD_FIELD).send_keys(*Creds.USER_PASSWORD)
+    driver.find_element(*Locators.LOGIN_BUTTON).click()
 
 
 @pytest.fixture
