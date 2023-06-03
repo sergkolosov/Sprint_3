@@ -8,5 +8,5 @@ class Urls:
 class Creds:
     """Креды к тестам авторизации"""
     USER_NAME = 'Serg'
-    USER_LOGIN = 'sergkolosov1071@yandex.ru'
+    USER_EMAIL = 'sergkolosov1071@yandex.ru'
     USER_PASSWORD = 'mypassword1071'

@@ -6,15 +6,17 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from data import Urls
+from data import Creds
 
 
 @pytest.fixture
 def driver():
-    """фикстура запуска браузера"""
-    driver = webdriver.Chrome()
-    driver.maximize_window()  # полноэкранный режим
-
-    return driver
+    """Запуск и закрытие браузера"""
+    browser = webdriver.Chrome()
+    browser.get(Urls.MAIN_PAGE)
+    yield browser
+    browser.quit()
 
 
 @pytest.fixture
