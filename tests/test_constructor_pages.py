@@ -1,33 +1,34 @@
-from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+from locator import Locators
 
 
+class TestConstructorPages:
+    def test_go_to_sauces_partition(self, driver):
+        """Проверяем что работает переход к разделу «Соусы»"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.SAUCES_BUTTON)).click()
 
-def test_go_to_sauces_partition(driver, creds, locators):
-    """Проверяем что работает переход к разделу «Соусы»"""
-    driver.get(creds.get("project_stand_main"))  # запускаем стенд на главной странице (она же Конструктор)
-    driver.find_element(By.XPATH, locators.get("sauces_button")).click()  # Найди кнопку "Соусы" и кликни по ней
+        flag_selected_tab = 'tab_tab_type_current__2BEPc'
+        actually_value = flag_selected_tab in driver.find_element(*Locators.SAUCES_BUTTON_SELECT).get_attribute('class')
+        expected_value = True
+        assert actually_value == expected_value, f'Ожидалось, что содержание "{flag_selected_tab}" в выделенном табе: "{expected_value}", получено "{actually_value}"'
 
-    assert 'tab_tab_type_current__2BEPc' in driver.find_element(By.XPATH, locators.get("sauces_button") + "/parent::div").get_attribute('class')  # Проверяем что класс, идентифицирующий активный таб, содержится в классах родителя кнопки "Соусы"
+    def test_go_to_fillings_partition(self, driver):
+        """Проверяем что работает переход к разделу «Начинки»"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.FILLINGS_BUTTON)).click()
 
-    driver.quit()
+        flag_selected_tab = 'tab_tab_type_current__2BEPc'
+        actually_value = flag_selected_tab in driver.find_element(*Locators.FILLINGS_BUTTON_SELECT).get_attribute('class')
+        expected_value = True
+        assert actually_value == expected_value, f'Ожидалось, что содержание "{flag_selected_tab}" в выделенном табе: "{expected_value}", получено "{actually_value}"'
 
+    def test_go_to_buns_partition(self, driver):
+        """Проверяем что работает переход к разделу «Булки»"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.SAUCES_BUTTON)).click()
+        driver.find_element(*Locators.BUNS_BUTTON).click()
 
-def test_go_to_fillings_partition(driver, creds, locators):
-    """Проверяем что работает переход к разделу «Начинки»"""
-    driver.get(creds.get("project_stand_main"))  # запускаем стенд на главной странице (она же Конструктор)
-    driver.find_element(By.XPATH, locators.get("fillings_button")).click()  # Найди кнопку "Начинки" и кликни по ней
-
-    assert 'tab_tab_type_current__2BEPc' in driver.find_element(By.XPATH, locators.get("fillings_button") + "/parent::div").get_attribute('class')  # Проверяем что класс, идентифицирующий активный таб, содержится в классах родителя кнопки "Начинки"
-
-    driver.quit()
-
-
-def test_go_to_buns_partition(driver, creds, locators):
-    """Проверяем что работает переход к разделу «Булки»"""
-    driver.get(creds.get("project_stand_main"))  # запускаем стенд на главной странице (она же Конструктор)
-    driver.find_element(By.XPATH, locators.get("sauces_button")).click()  # Найди кнопку "Соусы" и кликни по ней
-    driver.find_element(By.XPATH, locators.get("buns_button")).click()  # Найди кнопку "Булки" и кликни по ней
-
-    assert 'tab_tab_type_current__2BEPc' in driver.find_element(By.XPATH, locators.get("buns_button") + "/parent::div").get_attribute('class')  # Проверяем что класс, идентифицирующий активный таб, содержится в классах родителя кнопки "Булки"
-
-    driver.quit()
+        flag_selected_tab = 'tab_tab_type_current__2BEPc'
+        actually_value = flag_selected_tab in driver.find_element(*Locators.BUNS_BUTTON_SELECT).get_attribute('class')
+        expected_value = True
+        assert actually_value == expected_value, f'Ожидалось, что содержание "{flag_selected_tab}" в выделенном табе: "{expected_value}", получено "{actually_value}"'

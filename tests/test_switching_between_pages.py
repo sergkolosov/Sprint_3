@@ -1,38 +1,32 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-
-def test_go_to_personal_account_page(driver, creds, locators):
-    """Проверяем переход по клику на «Личный кабинет»"""
-    driver.get(creds.get("project_stand_main"))  # запускаем стенд на главной странице
-    WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.XPATH, locators.get("personal_cabinet"))))  # Добавь явное ожидание загрузки кнопки Личный кабинет
-    driver.find_element(By.XPATH, locators.get("personal_cabinet")).click()  # Найди кнопку "Личный кабинет" и кликни по ней
-
-    assert driver.current_url == "https://stellarburgers.nomoreparties.site/login"  # Проверяем текущий URL
-
-    driver.quit()
+from locator import Locators
 
 
-def test_go_to_constructor_page_from_personal_account_page_on_click_button_constructor(driver, creds, locators):
-    """Проверяем переход по клику на «Конструктор»"""
-    driver.get(creds.get("project_stand_main"))  # запускаем стенд на главной странице
-    WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.XPATH, locators.get("personal_cabinet"))))  # Добавь явное ожидание загрузки кнопки Личный кабинет
-    driver.find_element(By.XPATH, locators.get("personal_cabinet")).click()  # Найди кнопку "Личный кабинет" и кликни по ней
-    driver.find_element(By.XPATH, locators.get("constructor_button")).click()  # Найди кнопку Конструктор и кликни по ней
+class TestSwitchingBetweenPages:
+    def test_go_to_personal_account_page(self, driver):
+        """Проверяем переход по клику на «Личный кабинет»"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
 
-    assert driver.current_url == "https://stellarburgers.nomoreparties.site/"  # Проверяем текущий URL
+        actually_value = driver.current_url
+        expected_value = 'https://stellarburgers.nomoreparties.site/login'
+        assert actually_value == expected_value, f'Ожидалось URL: "{expected_value}", получено "{actually_value}"'
 
-    driver.quit()
+    def test_go_to_constructor_page_from_personal_account_page_on_click_button_constructor(self, driver):
+        """Проверяем переход по клику на «Конструктор»"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.CONSTRUCTOR_BUTTON)).click()
 
+        actually_value = driver.current_url
+        expected_value = 'https://stellarburgers.nomoreparties.site/'
+        assert actually_value == expected_value, f'Ожидалось URL: "{expected_value}", получено "{actually_value}"'
 
-def test_go_to_constructor_page_from_personal_account_page_on_click_logo(driver, creds, locators):
-    """Проверяем переход по клику на логотип Stellar Burgers"""
-    driver.get(creds.get("project_stand_main"))  # запускаем стенд на главной странице
-    WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.XPATH, locators.get("personal_cabinet"))))  # Добавь явное ожидание загрузки кнопки Личный кабинет
-    driver.find_element(By.XPATH, locators.get("personal_cabinet")).click()  # Найди кнопку "Личный кабинет" и кликни по ней
-    driver.find_element(By.XPATH, locators.get("logo_button")).click()  # Найди лого и кликни по нему
+    def test_go_to_constructor_page_from_personal_account_page_on_click_logo(self, driver):
+        """Проверяем переход по клику на логотип Stellar Burgers"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGO_BUTTON)).click()
 
-    assert driver.current_url == "https://stellarburgers.nomoreparties.site/"  # Проверяем текущий URL
-
-    driver.quit()
+        actually_value = driver.current_url
+        expected_value = 'https://stellarburgers.nomoreparties.site/'
+        assert actually_value == expected_value, f'Ожидалось URL: "{expected_value}", получено "{actually_value}"'

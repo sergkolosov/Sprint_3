@@ -1,91 +1,83 @@
-import time
-
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-
-def test_login_us_login_button_on_main_page(driver, creds, locators):
-    """Проверяем вход по кнопке «Войти в аккаунт» на главной"""
-    driver.get(creds.get("project_stand_main"))  # запускаем стенд на главной странице
-    WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.XPATH, locators.get("login_account_button"))))  # Добавь явное ожидание загрузки кнопки "Войти в аккаунт"
-    driver.find_element(By.XPATH, locators.get("login_account_button")).click()  # Найди кнопку "Войти в аккаунт" и кликни по ней
-    driver.find_element(By.XPATH, locators.get("email_field")).send_keys(creds.get('user_login'))  # Найди поле "Email" и заполни его
-    driver.find_element(By.XPATH, locators.get("password_field")).send_keys(creds.get('user_password'))  # Найди поле "Пароль" и заполни его
-    driver.find_element(By.XPATH, locators.get("login_button")).click()  # Найди кнопку "Войти" и кликни по ней
-    driver.find_element(By.XPATH, locators.get("personal_cabinet")).click()  # Найди кнопку "Личный кабинет" и кликни по ней
-    WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.XPATH, locators.get("logout_button"))))  # Добавь явное ожидание загрузки кнопки Выхода
-
-    assert driver.find_element(By.XPATH, locators.get("logout_button")).text == "Выход"  # Найди кнопку Выход и проверь его текстовое значение
-
-    driver.quit()
+from data import Creds
+from locator import Locators
 
 
-def test_login_us_personal_cabinet_button(driver, creds, locators):
-    """Проверяем вход через кнопку «Личный кабинет»"""
-    driver.get(creds.get("project_stand_main"))  # запускаем стенд на главной странице
-    WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.XPATH, locators.get("personal_cabinet"))))  # Добавь явное ожидание загрузки кнопки Личный кабинет
-    driver.find_element(By.XPATH, locators.get("personal_cabinet")).click()  # Найди кнопку "Личный кабинет" и кликни по ней
-    WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.XPATH, locators.get("authorization_form"))))  # Добавь явное ожидание загрузки формы авторизации
-    driver.find_element(By.XPATH, locators.get("email_field")).send_keys(creds.get('user_login'))  # Найди поле "Email" и заполни его
-    driver.find_element(By.XPATH, locators.get("password_field")).send_keys(creds.get('user_password'))  # Найди поле "Пароль" и заполни его
-    driver.find_element(By.XPATH, locators.get("login_button")).click()  # Найди кнопку "Войти" и кликни по ней
-    time.sleep(1)  # Костыль. Иначе не работает. Почему - не понимаю.
-    driver.find_element(By.XPATH, locators.get("personal_cabinet")).click()  # Найди кнопку "Личный кабинет" и кликни по ней
-    WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.XPATH, locators.get("logout_button"))))  # Добавь явное ожидание загрузки кнопки Выхода
+class TestAuthorization:
+    user_email = Creds.USER_EMAIL
+    user_password = Creds.USER_PASSWORD
 
-    assert driver.find_element(By.XPATH, locators.get("logout_button")).text == "Выход"  # Найди кнопку Выход и проверь его текстовое значение
+    def test_login_us_login_button_on_main_page(self, driver):
+        """Проверяем вход по кнопке «Войти в аккаунт» на главной"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).click()
 
-    driver.quit()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_BUTTON).click()
 
+        actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
+        expected_value = 'Оформить заказ'
+        assert actually_value == expected_value, f'Ожидалось текст на кнопке: "{expected_value}", получено "{actually_value}"'
 
-def test_login_us_login_link_on_registration_page(driver, creds, locators):
-    """Проверяем вход через кнопку в форме регистрации"""
-    driver.get(creds.get("project_stand_register"))  # запускаем стенд на странице регистрации
-    WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.XPATH, locators.get("authorization_link"))))  # Добавь явное ожидание загрузки ссылки Войти
-    driver.find_element(By.XPATH, locators.get("authorization_link")).click()  # Найди кнопку "Войти" и кликни по ней
-    WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.XPATH, locators.get("authorization_form"))))  # Добавь явное ожидание загрузки формы авторизации
-    driver.find_element(By.XPATH, locators.get("email_field")).send_keys(creds.get('user_login'))  # Найди поле "Email" и заполни его
-    driver.find_element(By.XPATH, locators.get("password_field")).send_keys(creds.get('user_password'))  # Найди поле "Пароль" и заполни его
-    driver.find_element(By.XPATH, locators.get("login_button")).click()  # Найди кнопку "Войти" и кликни по ней
-    driver.find_element(By.XPATH, locators.get("personal_cabinet")).click()  # Найди кнопку "Личный кабинет" и кликни по ней
-    WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.XPATH, locators.get("logout_button"))))  # Добавь явное ожидание загрузки кнопки Выхода
+    def test_login_us_personal_cabinet_button(self, driver):
+        """Проверяем вход через кнопку «Личный кабинет»"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
 
-    assert driver.find_element(By.XPATH, locators.get("logout_button")).text == "Выход"  # Найди кнопку Выход и проверь его текстовое значение
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_BUTTON).click()
 
-    driver.quit()
+        actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
+        expected_value = 'Оформить заказ'
+        assert actually_value == expected_value, f'Ожидалось текст на кнопке: "{expected_value}", получено "{actually_value}"'
 
+    def test_login_us_login_link_on_registration_page(self, driver):
+        """Проверяем вход через кнопку в форме регистрации"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.REGISTRATION_LINK)).click()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_LINK)).click()
 
-def test_login_us_login_link_on_forgot_password_page(driver, creds, locators):
-    """Проверяем вход через кнопку в форме восстановления пароля"""
-    driver.get(creds.get("project_stand_forgot_password"))  # запускаем стенд на странице восстановления пароля
-    WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.XPATH, locators.get("authorization_link"))))  # Добавь явное ожидание загрузки ссылки Войти
-    driver.find_element(By.XPATH, locators.get("authorization_link")).click()  # Найди кнопку "Войти" и кликни по ней
-    WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.XPATH, locators.get("authorization_form"))))  # Добавь явное ожидание загрузки формы авторизации
-    driver.find_element(By.XPATH, locators.get("email_field")).send_keys(creds.get('user_login'))  # Найди поле "Email" и заполни его
-    driver.find_element(By.XPATH, locators.get("password_field")).send_keys(creds.get('user_password'))  # Найди поле "Пароль" и заполни его
-    driver.find_element(By.XPATH, locators.get("login_button")).click()  # Найди кнопку "Войти" и кликни по ней
-    driver.find_element(By.XPATH, locators.get("personal_cabinet")).click()  # Найди кнопку "Личный кабинет" и кликни по ней
-    WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.XPATH, locators.get("logout_button"))))  # Добавь явное ожидание загрузки кнопки Выхода
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_BUTTON).click()
 
-    assert driver.find_element(By.XPATH, locators.get("logout_button")).text == "Выход"  # Найди кнопку Выход и проверь его текстовое значение
+        actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
+        expected_value = 'Оформить заказ'
+        assert actually_value == expected_value, f'Ожидалось текст на кнопке: "{expected_value}", получено "{actually_value}"'
 
-    driver.quit()
+    def test_login_us_login_link_on_forgot_password_page(self, driver):
+        """Проверяем вход через кнопку в форме восстановления пароля"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.RECOVER_PASSWORD_LINK)).click()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_LINK)).click()
 
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_BUTTON).click()
 
-def test_log_out(driver, creds, locators):
-    """Проверяем выход из аккаунта по кнопке «Выйти» в личном кабинете"""
-    driver.get(creds.get("project_stand_main"))  # запускаем стенд на главной странице
-    WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.XPATH, locators.get("login_account_button"))))  # Добавь явное ожидание загрузки кнопки "Войти в аккаунт"
-    driver.find_element(By.XPATH, locators.get("login_account_button")).click()  # Найди кнопку "Войти в аккаунт" и кликни по ней
-    driver.find_element(By.XPATH, locators.get("email_field")).send_keys(creds.get('user_login'))  # Найди поле "Email" и заполни его
-    driver.find_element(By.XPATH, locators.get("password_field")).send_keys(creds.get('user_password'))  # Найди поле "Пароль" и заполни его
-    driver.find_element(By.XPATH, locators.get("login_button")).click()  # Найди кнопку "Войти" и кликни по ней
-    driver.find_element(By.XPATH, locators.get("personal_cabinet")).click()  # Найди кнопку "Личный кабинет" и кликни по ней
-    WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.XPATH, locators.get("logout_button"))))  # Добавь явное ожидание загрузки кнопки Выхода
-    driver.find_element(By.XPATH, locators.get("logout_button")).click()  # Найди кнопку "Выход" и кликни по ней
-    WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((By.XPATH, locators.get("title_input"))))  # Добавь явное ожидание загрузки заголовка Входа
+        actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
+        expected_value = 'Оформить заказ'
+        assert actually_value == expected_value, f'Ожидалось текст на кнопке: "{expected_value}", получено "{actually_value}"'
 
-    assert driver.find_element(By.XPATH, locators.get("title_input")).text == "Вход"  # Найди заголовок Вход и проверь его текстовое значение
+    def test_log_out(self, driver):
+        """Проверяем выход из аккаунта по кнопке «Выйти» в личном кабинете"""
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).click()
 
-    driver.quit()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_BUTTON).click()
+
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGOUT_BUTTON)).click()
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGO_BUTTON)).click()
+
+        actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
+        expected_value = 'Войти в аккаунт'
+        assert actually_value == expected_value, f'Ожидалось текст на кнопке: "{expected_value}", получено "{actually_value}"'
