@@ -1,8 +1,6 @@
 class Urls:
-    """URL используемых страниц"""
+    """URL стенда"""
     MAIN_PAGE = 'https://stellarburgers.nomoreparties.site/'
-    REGISTER_PAGE = 'https://stellarburgers.nomoreparties.site/register'
-    FORGOT_PASSWORD_PAGE = 'https://stellarburgers.nomoreparties.site/forgot-password'
 
 
 class Creds:
