@@ -6,16 +6,14 @@ from locator import Locators
 
 
 class TestAuthorization:
-    user_email = Creds.USER_EMAIL
-    user_password = Creds.USER_PASSWORD
 
     def test_login_us_login_button_on_main_page(self, driver):
         """Проверяем вход по кнопке «Войти в аккаунт» на главной"""
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).click()
 
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
-        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
-        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(Creds.USER_EMAIL)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(Creds.USER_PASSWORD)
         driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
@@ -27,8 +25,8 @@ class TestAuthorization:
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
 
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
-        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
-        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(Creds.USER_EMAIL)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(Creds.USER_PASSWORD)
         driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
@@ -42,8 +40,8 @@ class TestAuthorization:
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_LINK)).click()
 
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
-        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
-        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(Creds.USER_EMAIL)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(Creds.USER_PASSWORD)
         driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
@@ -57,8 +55,8 @@ class TestAuthorization:
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_LINK)).click()
 
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
-        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
-        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(Creds.USER_EMAIL)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(Creds.USER_PASSWORD)
         driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
@@ -70,8 +68,8 @@ class TestAuthorization:
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).click()
 
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
-        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
-        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.user_password)
+        driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(Creds.USER_EMAIL)
+        driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(Creds.USER_PASSWORD)
         driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
