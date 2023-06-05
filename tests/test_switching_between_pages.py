@@ -10,7 +10,7 @@ class TestSwitchingBetweenPages:
         """Проверяем переход по клику на «Личный кабинет»"""
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.PERSONAL_CABINET_BUTTON)).click()
 
-        assert driver.current_url == Urls.MAIN_PAGE, f'Ожидалось URL: "{Urls.LOGIN_PAGE}", получено "{driver.current_url}"'
+        assert driver.current_url == Urls.LOGIN_PAGE, f'Ожидалось URL: "{Urls.LOGIN_PAGE}", получено "{driver.current_url}"'
 
     def test_go_to_constructor_page_from_personal_account_page_on_click_button_constructor(self, driver):
         """Проверяем переход по клику на «Конструктор»"""
