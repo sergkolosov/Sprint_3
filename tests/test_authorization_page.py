@@ -6,6 +6,7 @@ from locator import Locators
 
 
 class TestAuthorization:
+    new_order_button_text = 'Оформить заказ'
 
     def test_login_us_login_button_on_main_page(self, driver):
         """Проверяем вход по кнопке «Войти в аккаунт» на главной"""
@@ -17,7 +18,7 @@ class TestAuthorization:
         driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
-        expected_value = 'Оформить заказ'
+        expected_value = self.new_order_button_text
         assert actually_value == expected_value, f'Ожидалось текст на кнопке: "{expected_value}", получено "{actually_value}"'
 
     def test_login_us_personal_cabinet_button(self, driver):
@@ -30,7 +31,7 @@ class TestAuthorization:
         driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
-        expected_value = 'Оформить заказ'
+        expected_value = self.new_order_button_text
         assert actually_value == expected_value, f'Ожидалось текст на кнопке: "{expected_value}", получено "{actually_value}"'
 
     def test_login_us_login_link_on_registration_page(self, driver):
@@ -45,7 +46,7 @@ class TestAuthorization:
         driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
-        expected_value = 'Оформить заказ'
+        expected_value = self.new_order_button_text
         assert actually_value == expected_value, f'Ожидалось текст на кнопке: "{expected_value}", получено "{actually_value}"'
 
     def test_login_us_login_link_on_forgot_password_page(self, driver):
@@ -60,7 +61,7 @@ class TestAuthorization:
         driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
-        expected_value = 'Оформить заказ'
+        expected_value = self.new_order_button_text
         assert actually_value == expected_value, f'Ожидалось текст на кнопке: "{expected_value}", получено "{actually_value}"'
 
     def test_log_out(self, driver):
