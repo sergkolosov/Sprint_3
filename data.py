@@ -1,6 +1,7 @@
 class Urls:
     """URL стенда"""
     MAIN_PAGE = 'https://stellarburgers.nomoreparties.site/'
+    LOGIN_PAGE = 'https://stellarburgers.nomoreparties.site/login'
 
 
 class Creds:
