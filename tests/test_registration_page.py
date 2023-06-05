@@ -16,12 +16,12 @@ class TestRegistrationPage:
         WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.REGISTRATION_NAME_FIELD)).send_keys('User')
         driver.find_element(*Locators.REGISTRATION_EMAIL_FIELD).send_keys(self.user_email)
         driver.find_element(*Locators.REGISTRATION_PASSWORD_FIELD).send_keys(self.correct_user_password)
-        driver.find_element(*Locators.REGISTRATION_BUTTON).click()  # Зарегистрировались
+        driver.find_element(*Locators.REGISTRATION_BUTTON).click()
 
         WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.LOGIN_BUTTON))
         driver.find_element(*Locators.LOGIN_EMAIL_FIELD).send_keys(self.user_email)
         driver.find_element(*Locators.LOGIN_PASSWORD_FIELD).send_keys(self.correct_user_password)
-        driver.find_element(*Locators.LOGIN_BUTTON).click()  # Вошли
+        driver.find_element(*Locators.LOGIN_BUTTON).click()
 
         actually_value = WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.LOGIN_ACCOUNT_OR_PLACE_ORDER_BUTTON)).text
         expected_value = 'Оформить заказ'
